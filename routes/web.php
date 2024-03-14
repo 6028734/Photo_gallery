@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\DashboardController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,6 +17,8 @@ use App\Http\Controllers\DashboardController;
 */
 
 Route::get('/', [IndexController::class, 'index']);
+Route::get('/albums/{id}', [IndexController::class, 'photosPerAlbumId'])->where('id', '[0-9]+');
+
 
 Route::get('/dashboard', function () {
     return view('management.dashboard');

@@ -35,9 +35,8 @@ class DashboardController extends Controller
             $this->albums->cover_photo = $image_name;
             $this->albums->created_at = now();
             $this->albums->updated_at = now();
-
-
          $this->albums->save();
+         return redirect()->back();
     }
     public function albums() {
         $all_albums = DB::table('albums')->get();
