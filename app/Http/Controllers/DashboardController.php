@@ -4,9 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\albums;
+use App\Models\photos;
 
 class DashboardController extends Controller
 {
+
+    public $albums;
+    public $photos;
+
+    public function __construct() {
+        $this->albums = new Albums;
+       $this->photos = new Photos;
+    }
+
     public function dashboard() {
         return view('management.dashboard');
     }
@@ -16,17 +27,17 @@ class DashboardController extends Controller
             'image_name' => 'required|file',
         ]);
 
-
             $image = $request->file('image_name');
             $image_name = $image->getClientOriginalName();
             request('image_name')->move(public_path('images'), $image_name);
 
-        $data[] = [
-            'album_name' => $request['album'],
-            'cover_photo' => $image_name,
-        ];
+            $this->albums->album_name = $request['album'];
+            $this->albums->cover_photo = $image_name;
+            $this->albums->created_at = now();
+            $this->albums->updated_at = now();
 
-         DB::table('albums')->insert($data);
+
+         $this->albums->save();
     }
     public function albums() {
         $all_albums = DB::table('albums')->get();

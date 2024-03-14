@@ -23,11 +23,27 @@ Route::get('/dashboard', function () {
     return view('management.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard/albums/editAlbum/{id}', [DashboardController::class, 'photosByAlbumId'])->where('id', '[0-9]+');
+    Route::get('/dashboard/albums/selectPhotobyalbum/{id}', [DashboardController::class, 'selectPhotobyalbum'])->where('id', '[0-9]+');
+    Route::get('/dashboard', [DashboardController::class, 'dashboard']);
+    Route::get('/dashboard/albums', [DashboardController::class, 'albums']);
+    Route::post('/dashboard/insertAlbum', [DashboardController::class, 'insertAlbum']);
+});
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+//Route::get('/albums/{id}', [IndexController::class, 'photosPerAlbumId'])->where('id', '[0-9]+');
+//Route::get('/dashboard/albums/editAlbum/{id}', [DashboardController::class, 'photosByAlbumId'])->where('id', '[0-9]+');
+//Route::get('/dashboard/albums/selectPhotobyalbum/{id}', [DashboardController::class, 'selectPhotobyalbum'])->where('id', '[0-9]+');
+//Route::get('/dashboard/albums', [DashboardController::class, 'albums']);
+//Route::post('/dashboard/insertAlbum', [DashboardController::class, 'insertAlbum']);
 
 
 require __DIR__.'/auth.php';
