@@ -22,7 +22,7 @@ Route::get('/albums/{id}', [IndexController::class, 'photosPerAlbumId'])->where(
 
 Route::get('/dashboard', function () {
     return view('management.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified']);
 
 
 Route::middleware('auth')->group(function () {
